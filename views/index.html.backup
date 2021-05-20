@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Vue Example</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="../assets/bootstrap.min.css">
+
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script type="text/javascript" src="../node_modules/androidjs/lib/androidjs.js"></script>
+
+	<script type="text/javascript">
+		window.onload = function(){
+			front.send('get-data');
+		}
+	</script>
+</head>
+
+<style>
+	.app{
+		font-size:30px;
+	}
+</style>
+
+<body>
+
+<!-- body container -->
+<div id="app" class = "app">
+	<div class="card" style="margin: 10px">
+	  <div class="card-body">
+	    <h5 class="card-title">Welcome to androidjs</h5>
+	    <h6 class="card-subtitle text-muted">AndroidJS + Vue + Bootstrap</h6>
+	  </div>
+	</div>
+	<ul class="list-group" style="margin-right: 10px;margin-left: 10px">
+	  <li class="list-group-item" @click="remove(u)" v-for="u in users">{{u}}</li>
+	</ul>
+</div>
+
+<!-- footer -->
+<nav  class="navbar fixed-bottom navbar-light bg-light">
+  <a class="navbar-brand" 
+  onclick="toggle_popover()" 
+  id="popover" 
+  data-container="body" 
+  data-toggle="popover" 
+  data-placement="top" 
+  data-content="Edit this page from views/index.html"
+  >views/index.html</a>
+</nav>
+
+
+
+<script type="text/javascript" src = "../assets/script.js"></script>
+<script src="../assets/jquery-3.3.1.slim.min.js"></script>
+<script src="../assets/popper.min.js"></script>
+<script src="../assets/bootstrap.min.js"></script>
+<script type="text/javascript">
+	function toggle_popover() {
+		$('#popover').popover('toggle')
+	}
+</script>
+</body>
+
+</html>
+
+
+// Other codes backup
+<!-- <div id="id01" style="z-index: 30;" class="w3-modal">
+		<div class="w3-modal-content w3-animate-zoom w3-card-4">
+			<header class="w3-container w3-teal">
+				<h2>Modal Header</h2>
+			</header>
+			<div class="w3-container">
+				<p>Some text..</p>
+				<p>Some text..</p>
+			</div>
+			<footer class="w3-container w3-teal">
+				<span id ="closeApp" 
+					class="w3-button w3-large w3-display-bottomright">Ricarica</span>
+				<p>Modal Footer</p>
+			</footer>
+		</div>
+	</div> -->
+	
+	<!-- The Modal -->
+	<!-- <div class="modal fade" id="myModal">
+		<div class="modal-dialog modal-dialog-centered mx-auto modal-sm">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Impossibile avviare</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body text-center errorModal-body">
+				
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" onclick="restartFunc()">Riavvia</button>
+				</div>
+				
+			</div>
+		</div>
+	</div> -->

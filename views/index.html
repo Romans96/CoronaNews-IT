@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Covid-19 News from Repubblica.it</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="../assets/bootstrap.min.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+	<!-- ##### Libreria androidjs #####-->
+	<script type="text/javascript" src="../node_modules/androidjs/lib/androidjs.js"></script>
+	<!-- Importo libreria per Toast, WIFi, Etc--> 
+	<script type="text/javascript" src="../node_modules/androidjs/lib/androidjs.js/react_native/androidjs.js"></script>
+
+	<!-- Importo libreria W3CSS per il modal W3 Style-->
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css" />
+
+	<!-- Importo libreria vConsole per debug APP-->
+	<!-- <script src="../node_modules/vconsole/dist/vconsole.min.js"></script>
+	<script>
+		var vConsole = new VConsole();
+	</script> -->
+</head>
+
+<style>
+	.app{
+		font-size:30px;
+	}
+	div.div-page {
+		height: 100%;
+		width: 94%;
+		margin: 0 3% 0 3%;
+		word-break: break-word;
+    	overflow-x: hidden;
+	}
+	div.loader {
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+		background-color: rgba(0,0,0,0.5);
+	
+		/* needed styles for the overlay */
+		z-index: 20; /* keep on top of other elements on the page */
+		box-shadow: 0 0 0 9999px rgba(0,0,0,0.5);
+	}
+	hr {
+		-moz-border-bottom-colors: none;
+		-moz-border-left-colors: none;
+		-moz-border-right-colors: none;
+		-moz-border-top-colors: none;
+		border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+		border-style: solid none;
+		border-width: 1px 0 ;
+		margin: 18px 0;
+	}
+	img.pageImgs {
+		zoom: 2; 
+
+		display: block;
+		margin: auto;
+
+		height: auto;
+		max-height: 100%;
+
+		width: auto;
+		max-width: 100%;
+	}
+	#pFonte {
+		margin: auto; 
+		width: 50%; 
+		text-align: center;
+	}
+	#goToTop {
+		display: none; /* Hidden by default */
+		position: fixed; /* Fixed/sticky position */
+		bottom: 1%; /* Place the button at the bottom of the page */
+		right: 1%; /* Place the button 30px from the right */
+		z-index: 10; /* Make sure it does not overlap */
+		border: none; /* Remove borders */
+		outline: none; /* Remove outline */
+		color: white; /* Text color */
+		cursor: pointer; /* Add a mouse pointer on hover */
+		padding: 2px; /* Some padding */
+		border-radius: 20px; /* Rounded corners */
+		font-size: 18px; /* Increase font size */
+		height: 30px;
+		width: 45px;
+	}
+	.scrollable-menu {
+		height: auto;
+		max-height: 150px;
+		overflow-x: hidden;
+	}
+</style>
+
+<body>
+	<div class="loader" id="loader"><img src="../assets/loader1.gif" /></div>
+	<img src="../assets/arrow_transparent.png" onClick="goTopFunc()" id="goToTop" />
+
+	<!-- The Modal -->
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog modal-dialog-centered mx-auto modal-sm">
+			<div class="modal-content">
+				<!-- Modal Header -->
+				<div class="modal-header">
+					<h4 class="modal-title">Impossibile avviare</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal">×</button> -->
+				</div>
+				
+				<!-- Modal body -->
+				<div class="modal-body text-center errorModal-body">
+				
+				</div>
+				
+				<!-- Modal footer -->
+				<div class="modal-footer">
+					<button type="button" class="btn btn-danger" onclick="restartFunc()">Riavvia</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+
+	<nav class="navbar navbar-fixed-top fixed-top navbar-expand-lg navbar-dark bg-dark">
+		<a class="navbar-brand" href="#">Covid-19 News</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+		   <span class="navbar-toggler-icon"></span>
+		</button>
+		<div class="collapse navbar-collapse justify-content-center" id="navbarNavDropdown">
+			<ul class="navbar-nav">
+				<!--<li class="nav-item active">
+					<a class="nav-link" id="feb" href="#">Febbraio</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" id="mar" href="#">Marzo</a>
+				</li>-->
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Seleziona
+					</a>
+					<div id="dropdown-menu" class="dropdown-menu scrollable-menu bg-dark" aria-labelledby="navbarDropdownMenuLink">
+						<!--<a class="text-light dropdown-item" id="item-feb" href="#">Febbraio</a>
+						<a class="text-light dropdown-item" id="item-mar-p1" href="#">Marzo (Parte 1)</a>
+						<a class="text-light dropdown-item active" id="item-mar-p2" href="#">Marzo (Parte 2)</a>-->
+					</div>
+				</li>
+			</ul>
+		</div>
+	</nav>
+	<br><br><br><br>
+	
+	<p id="pFonte">
+		Tutte le informazioni di questa pagina appartengono al sito <a href="https://www.repubblica.it/" target="_blank">Repubblica.it</a>
+	</p>
+
+	<div class="div-page" id="div-page"></div>
+</body>
+
+<script>
+	// URLs Repubblica.it Posts
+	/* const urls1 = [
+		["febbraio", "Febbraio", "https://www.repubblica.it/cronaca/2020/02/22/news/coronavirus_in_italia_aggiornamento_ora_per_ora-249241616/"],
+		["marzo_1a7", "Marzo (01 a 07)", "https://www.repubblica.it/cronaca/2020/03/01/news/coronavirus_in_italia_aggiornamento_ora_per_ora-249954540/"],
+		["marzo_8a19", "Marzo (08 a 19)", "https://www.repubblica.it/cronaca/2020/03/15/news/coronavirus_le_ultime_notizie_in_italia-251329565/"],
+		["marzo_20a21", "Marzo (20 a 21)", "https://www.repubblica.it/cronaca/2020/03/20/news/coronavirus_le_ultime_notizie_in_italia-251757457/"],
+		["last", "Marzo (21 in poi)", "https://www.repubblica.it/cronaca/2020/03/22/news/coronavirus_le_ultime_notizie-251944849/"]
+	];  */
+	
+	// Other Vars
+	var nav_bar = document.body.innerHTML;
+	var loaderDiv = document.getElementById("loader");
+	var goToTop = document.getElementById("goToTop");
+	var divpage = document.getElementById("div-page");
+	var pFonte = document.getElementById("pFonte");
+	var myUrls = null;
+  
+
+	window.onload = function() {
+		pFonte.style.display = "none";
+		loaderDiv.style.display = "block";
+		front.send('get-urls', "");
+	}
+
+	front.on('use-urls', function(urls) {
+		myUrls = urls;
+		console.log(myUrls);
+		// front.send('get-html', urls1[4][2], urls1[4][1]);
+		for (var item of myUrls) {
+			if (item["id"].toLowerCase().endsWith("last")) {
+				$("div.dropdown-menu").append(`<a class="text-light dropdown-item active" id="${item["id"]}" href="#">${item["nome"]}</a>`)
+				front.send('get-html', item["url"], item["nome"]);
+			}
+			else {
+				$("div.dropdown-menu").append(`<a class="text-light dropdown-item" id="${item["id"]}" href="#">${item["nome"]}</a>`)
+			}
+		}
+	});
+
+	front.on('use-html',  function(myPage, nome) {
+		document.getElementById("div-page").innerHTML = myPage;
+		loaderDiv.style.display = "none";
+		pFonte.style.display = "block";
+		app.toast.show("Caricato: "+nome, 0);
+		document.getElementById("navbarDropdownMenuLink").innerHTML = "Seleziona ~ Opz. Selezionata: <b>"+ nome +"</b>";
+	});
+	
+	$(document).ready(function() {
+		$(document).on('click','a.dropdown-item', function() { 
+			for (var item of myUrls) {
+				if ($(this).is(`#${item["id"]}`)) {
+					loaderDiv.style.display = "block";
+					front.send('get-html', item["url"], item["nome"] );
+				}
+			}
+			$('a.dropdown-item.active').removeClass("active");
+			$(this).addClass("active");
+		});
+	});
+	
+	/* ### Functions to show the goToTop image and scroll up function ###
+	---------------------------------------------------------------------*/
+	window.onscroll = function() {
+		scrollFunction();
+	};
+	function scrollFunction() {
+		if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20 || divpage.scrollTop > 20) {
+			goToTop.style.display = "block";
+		} else {
+			goToTop.style.display = "none";
+		}
+	}
+	// When the user clicks on the button, scroll to the top of the document
+	function goTopFunc() {
+		document.body.scrollTop = 0; // For Safari
+		document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+	}
+
+	/*---------------------------------------------------------------------*/
+
+	// Modal Card Window (for no connection)
+	front.on("reload-app", async function(error) {
+		if (error === "connession_error"){
+			await $('.errorModal-body').text("Verificare che la connessione a internet sia attiva e riavviare l'app!");
+		}
+		else if (error === "db_error"){
+			await $('.errorModal-body').text("Errore nel Database, attendere risoluzione errore o scrivere allo sviluppatore!");
+		}
+		$('#myModal').modal({backdrop: 'static', keyboard: false});
+	})
+
+	function restartFunc() {
+		app.reload();
+	}
+</script>
+
+</html>

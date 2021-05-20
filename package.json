@@ -1,0 +1,32 @@
+{
+  "name": "covid19_newsit",
+  "app-name": "Covid19 News",
+  "package-name": "mattiaromagnoli.covid19news",
+  "project-type": "webview",
+  "icon": "./assets/icon/CN_logo.png",
+  "dist-path": "./dist",
+  "permission": [
+    "android.permission.INTERNET"
+  ],
+  "theme": {
+    "fullScreen": true
+  },
+  "version": "1.0.1",
+  "description": "Semplice applicatione che raggruppa le ultime notizie su Covid-19 riportate su Repubblica.it",
+  "main": "script.js",
+  "debuggable": "false",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mattia Romagnoli",
+  "license": "ISC",
+  "dependencies": {
+    "androidjs": "^2.0.3",
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "fs": "0.0.1-security",
+    "http": "0.0.0",
+    "mongodb": "^3.5.5",
+    "vconsole": "^3.3.4"
+  }
+}
